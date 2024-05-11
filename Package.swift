@@ -11,7 +11,7 @@ let package = Package(
     products: [
         .library(
             name: "CocoaLUT",
-            targets: ["CocoaLUT-iOS"])
+            targets: ["CocoaLUT"])
     ],
     dependencies: [
         .package(url: "https://github.com/zhanggenning/Objective-C-RegEx-Categories.git", from: "1.0.0"),
@@ -20,14 +20,13 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "CocoaLUT-iOS",
+            name: "CocoaLUT",
             dependencies: [
                 .product(name: "RegExCategories", package: "Objective-C-RegEx-Categories"),
                 .product(name: "M13OrderedDictionary", package: "M13OrderedDictionary"),
                 .product(name: "XMLDictionary", package: "XMLDictionary")
             ],
             path: "Classes",
-            exclude: ["osx"],
             publicHeadersPath: "."
         )
     ]
