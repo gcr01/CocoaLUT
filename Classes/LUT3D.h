@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LUTColor.h"
 #import "LUT.h"
-#import <M13OrderedDictionary/M13OrderedDictionary.h>
+#import <M13OrderedDictionary.h>
 
 @class LUTColor;
 @class LUT1D;

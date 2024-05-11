@@ -80,12 +80,12 @@
 + (instancetype)LUT3DFromFalseColorWithSize:(NSUInteger)size{
     LUT3D *falseColorLUT = [LUT3D LUTOfSize:size inputLowerBound:0 inputUpperBound:1];
     
-    LUTColor *purple = [LUTColor colorWithSystemColor:[SystemColor purpleColor]];
-    LUTColor *blue = [LUTColor colorWithSystemColor:[SystemColor blueColor]];
-    LUTColor *green = [LUTColor colorWithSystemColor:[SystemColor greenColor]];
-    LUTColor *pink = [LUTColor colorWithSystemColor:[SystemColor colorWithRed:1.0 green:.753 blue:.796 alpha:1.0]];
-    LUTColor *yellow = [LUTColor colorWithSystemColor:[SystemColor yellowColor]];
-    LUTColor *red = [LUTColor colorWithSystemColor:[SystemColor redColor]];
+    LUTColor *purple = [LUTColor colorWithSystemColor:[UIColor purpleColor]];
+    LUTColor *blue = [LUTColor colorWithSystemColor:[UIColor blueColor]];
+    LUTColor *green = [LUTColor colorWithSystemColor:[UIColor greenColor]];
+    LUTColor *pink = [LUTColor colorWithSystemColor:[UIColor colorWithRed:1.0 green:.753 blue:.796 alpha:1.0]];
+    LUTColor *yellow = [LUTColor colorWithSystemColor:[UIColor yellowColor]];
+    LUTColor *red = [LUTColor colorWithSystemColor:[UIColor redColor]];
     
     
     [falseColorLUT LUTLoopWithBlock:^(size_t r, size_t g, size_t b) {

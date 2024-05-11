@@ -7,7 +7,7 @@
 //
 
 #import "LUTFormatterClipster.h"
-#import <XMLDictionary/XMLDictionary.h>
+#import <XMLDictionary.h>
 
 @implementation LUTFormatterClipster
 

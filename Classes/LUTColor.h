@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "CocoaLUT.h"
 
 #define LEGAL_LEVELS_MIN 0.06256109481 //64.0/1023.0
@@ -166,14 +167,14 @@ typedef double LUTColorValue;
  *
  *  @return A `LUTColor`.
  */
-+ (instancetype)colorWithSystemColor:(SystemColor *)color;
++ (instancetype)colorWithSystemColor:(UIColor *)color;
 
 /**
  *  A system color representation of the LUTColor.
  *
  *  @return On OS X, an NSColor, on iOS a UIColor.
  */
-- (SystemColor *)systemColor;
+- (UIColor *)systemColor;
 
 - (NSString *)stringFormattedWithFloatingPointLength:(int)length;
 - (NSAttributedString *)colorizedAttributedStringWithFormat:(NSString *)formatString;

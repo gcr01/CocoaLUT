@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKit.h>
-#import <M13OrderedDictionary/M13OrderedDictionary.h>
+#import <M13OrderedDictionary.h>
 
 @interface LUTColorSpaceWhitePoint : NSObject <NSCopying>
 

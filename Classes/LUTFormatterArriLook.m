@@ -7,7 +7,7 @@
 //
 
 #import "LUTFormatterArriLook.h"
-#import <XMLDictionary/XMLDictionary.h>
+#import <XMLDictionary.h>
 
 
 

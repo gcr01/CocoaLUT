@@ -11,7 +11,7 @@
 #import "CocoaLUT.h"
 #import "LUT1D.h"
 #import "LUT3D.h"
-#import <M13OrderedDictionary/M13OrderedDictionary.h>
+#import <M13OrderedDictionary.h>
 
 @class LUT1D;
 @class LUT3D;
@@ -73,13 +73,7 @@ void LUT1DLoop(NSUInteger size, void (^block)(NSUInteger index));
 
 void LUTConcurrentRectLoop(NSUInteger width, NSUInteger height, void (^block)(NSUInteger x, NSUInteger y));
 
-SystemColor* systemColorWithHexString(NSString* hexString);
-
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#elif TARGET_OS_MAC
-void LUTNSImageLog(NSImage *image);
-NSImage* LUTNSImageFromCIImage(CIImage *ciImage, BOOL useSoftwareRenderer);
-#endif
+UIColor* systemColorWithHexString(NSString* hexString);
 
 @interface LUTHelper : NSObject
 

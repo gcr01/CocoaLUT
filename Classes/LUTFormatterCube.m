@@ -8,7 +8,7 @@
 
 #import "LUTFormatterCube.h"
 
-#import <RegExCategories/RegExCategories.h>
+#import <RegExCategories.h>
 
 @implementation LUTFormatterCube
 

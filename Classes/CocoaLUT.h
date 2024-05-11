@@ -1,11 +1,7 @@
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+
+#include <TargetConditionals.h>
+
 #import <CoreImage/CoreImage.h>
-#define SystemColor UIColor
-#elif TARGET_OS_MAC
-#import <QuartzCore/CoreImage.h>
-#import <Cocoa/Cocoa.h>
-#define SystemColor NSColor
-#endif
 
 #define TICK   NSDate *startTime = [NSDate date]
 #define TOCK   NSLog(@"%s Time: %f", __func__, -[startTime timeIntervalSinceNow])

@@ -284,17 +284,13 @@
     NSString *greenString = [NSString stringWithFormat:[NSString stringWithFormat:@"%@", formatString], self.green];
     NSString *blueString = [NSString stringWithFormat:[NSString stringWithFormat:@"%@", formatString], self.blue];
 
-    NSAttributedString *redColoredString = [[NSAttributedString alloc] initWithString:redString attributes:@{NSForegroundColorAttributeName: [SystemColor redColor]}];
+    NSAttributedString *redColoredString = [[NSAttributedString alloc] initWithString:redString attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-    SystemColor *green = SystemColor.greenColor;
-#elif TARGET_OS_MAC
-    SystemColor *green = [SystemColor colorWithDeviceRed:0 green:.8 blue:0 alpha:1];
-#endif
+    UIColor *green = UIColor.greenColor;
 
     NSAttributedString *greenColoredString = [[NSAttributedString alloc] initWithString:greenString attributes:@{NSForegroundColorAttributeName: green}];//custom green color because pure green is really hard to read.
 
-    NSAttributedString *blueColoredString = [[NSAttributedString alloc] initWithString:blueString attributes:@{NSForegroundColorAttributeName: [SystemColor blueColor]}];
+    NSAttributedString *blueColoredString = [[NSAttributedString alloc] initWithString:blueString attributes:@{NSForegroundColorAttributeName: [UIColor blueColor]}];
 
     NSMutableAttributedString *outString = [[NSMutableAttributedString alloc] initWithString:@""];
     [outString appendAttributedString:redColoredString];
@@ -327,19 +323,11 @@
     return [self isEqualToLUTColor:(LUTColor *)object];
 }
 
-- (SystemColor *)systemColor {
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+- (UIColor *)systemColor {
     return [UIColor colorWithRed:self.red green:self.green blue:self.blue alpha:1];
-#elif TARGET_OS_MAC
-    return [NSColor colorWithDeviceRed:self.red green:self.green blue:self.blue alpha:1];
-#endif
 }
-+ (instancetype)colorWithSystemColor:(SystemColor *)color {
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
++ (instancetype)colorWithSystemColor:(UIColor *)color {
     return [LUTColor colorWithRed:[[color CIColor] red] green:[[color CIColor] green] blue:[[color CIColor] blue]];
-#elif TARGET_OS_MAC
-    return [LUTColor colorWithRed:color.redComponent green:color.greenComponent blue:color.blueComponent];
-#endif
 }
 
 @end

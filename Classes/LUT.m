@@ -659,14 +659,7 @@
 - (CIFilter *)coreImageFilterWithCurrentColorSpace {
     CIFilter *filter;
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
     filter = [self coreImageFilterWithColorSpace:colorspace];
-    #elif TARGET_OS_MAC
-    //good for render, not good for viewing
-    filter = [self coreImageFilterWithColorSpace:colorspace];
-    //good for viewing, not good for render
-    //return [self coreImageFilterWithColorSpace:[[[NSScreen mainScreen] colorSpace] CGColorSpace]];
-    #endif
     //CGColorSpaceRelease(colorspace);
     return filter;
 }
@@ -724,65 +717,8 @@
 
 #endif
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (UIImage *)processUIImage:(UIImage *)image withColorSpace:(CGColorSpaceRef)colorSpace {
     return [[UIImage alloc] initWithCIImage:[self processCIImage:image.CIImage]];
 }
-#elif TARGET_OS_MAC
-
-- (NSImage *)processNSImage:(NSImage *)image
-                 renderPath:(LUTImageRenderPath)renderPath {
-
-    if (renderPath == LUTImageRenderPathCoreImage || renderPath == LUTImageRenderPathCoreImageSoftware) {
-        NSImageRep *firstRep = [image.representations firstObject];
-
-        if (![firstRep isKindOfClass:[NSBitmapImageRep class]]) {
-            return nil;
-        }
-
-        CIImage *inputCIImage = [[CIImage alloc] initWithBitmapImageRep:(NSBitmapImageRep *)firstRep];
-        CIImage *outputCIImage = [self processCIImage:inputCIImage];
-        return LUTNSImageFromCIImage(outputCIImage, renderPath == LUTImageRenderPathCoreImageSoftware);
-    }
-    else if (renderPath == LUTImageRenderPathDirect) {
-        return [self processNSImageDirectly:image];
-    }
-
-    return nil;
-}
-
-- (NSImage *)processNSImageDirectly:(NSImage *)image {
-
-    NSBitmapImageRep *inImageRep = [image representations][0];
-
-
-    int nchannels = 3;
-    int bps = 16;
-    NSBitmapImageRep *imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                         pixelsWide:image.size.width
-                                                                         pixelsHigh:image.size.height
-                                                                      bitsPerSample:bps
-                                                                    samplesPerPixel:nchannels
-                                                                           hasAlpha:NO
-                                                                           isPlanar:NO
-                                                                     colorSpaceName:NSDeviceRGBColorSpace
-                                                                        bytesPerRow:(image.size.width * (bps * nchannels)) / 8
-                                                                       bitsPerPixel:bps * nchannels];
-
-    for (int x = 0; x < image.size.width; x++) {
-        for (int y = 0; y < image.size.height; y++) {
-
-            LUTColor *lutColor = [LUTColor colorWithSystemColor:[inImageRep colorAtX:x y:y]];
-            LUTColor *transformedColor =[self colorAtColor:lutColor];
-            [imageRep setColor:transformedColor.systemColor atX:x y:y];
-
-        }
-    }
-
-    NSImage* outImage = [[NSImage alloc] initWithSize:image.size];
-    [outImage addRepresentation:imageRep];
-    return outImage;
-}
-#endif
 
 @end

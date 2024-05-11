@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #if defined(COCOAPODS_POD_AVAILABLE_GPUImage)
 #import <GPUImage/GPUImage.h>
 #import "GPUImageCocoaLUTFilter.h"
@@ -219,7 +220,6 @@ typedef NS_ENUM(NSInteger, LUTImageRenderPath) {
  */
 - (CIImage *)processCIImage:(CIImage *)image;
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 /**
  *  Returns a `UIImage` with the receiver's color transformation applied.
  *
@@ -229,18 +229,6 @@ typedef NS_ENUM(NSInteger, LUTImageRenderPath) {
  *  @return A UIImage with the receiver's color transformation applied.
  */
 - (UIImage *)processUIImage:(UIImage *)image withColorSpace:(CGColorSpaceRef)colorSpace;
-#elif TARGET_OS_MAC
-/**
- *  Returns an `NSImage` with the receiver's color transformation applied.
- *
- *  @param image      The input `NSImage` you wish transform.
- *  @param renderPath The rendering path to use.
- *
- *  @return A `NSImage` with the receiver's color transformation applied.
- */
-- (NSImage *)processNSImage:(NSImage *)image
-                 renderPath:(LUTImageRenderPath)renderPath;
-#endif
 
 
 @end

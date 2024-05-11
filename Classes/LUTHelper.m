@@ -307,8 +307,8 @@ NSString* substringBetweenTwoStrings(NSString *originString, NSString *firstStri
     return [originString substringWithRange:rSub];
 }
 
-SystemColor* systemColorWithHexString(NSString* hexString){
-    SystemColor* result = nil;
+UIColor* systemColorWithHexString(NSString* hexString){
+    UIColor* result = nil;
     unsigned colorCode = 0;
     unsigned char redByte, greenByte, blueByte;
 
@@ -322,93 +322,14 @@ SystemColor* systemColorWithHexString(NSString* hexString){
     greenByte = (unsigned char)(colorCode >> 8);
     blueByte = (unsigned char)(colorCode); // masks off high bits
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-    result = [SystemColor
+    result = [UIColor
               colorWithRed:(CGFloat)redByte / 0xff
               green:(CGFloat)greenByte / 0xff
               blue:(CGFloat)blueByte / 0xff
               alpha:1.0];
-#elif TARGET_OS_MAC
-    result = [SystemColor
-              colorWithDeviceRed:(CGFloat)redByte / 0xff
-              green:(CGFloat)greenByte / 0xff
-              blue:(CGFloat)blueByte / 0xff
-              alpha:1.0];
-#endif
+    
     return result;
 }
-
-
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#elif TARGET_OS_MAC
-void LUTNSImageLog(NSImage *image) {
-    for (NSImageRep *rep in image.representations) {
-        NSLog(@"Color Space: %@", rep.colorSpaceName);
-        NSLog(@"Bits Per Sample: %ld", (long)rep.bitsPerSample);
-        if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
-            NSLog(@"Bits Per Pixel: %ld", (long)((NSBitmapImageRep *)rep).bitsPerPixel);
-        }
-    }
-}
-
-NSString* FirstRegexMatch(NSString *text, NSString *pattern) {
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:NULL];
-    NSTextCheckingResult *match = [regex firstMatchInString:text options:0 range:NSMakeRange(0, [text length])];
-    return [text substringWithRange:[match rangeAtIndex:1]];
-}
-
-NSImage* LUTNSImageFromCIImage(CIImage *ciImage, BOOL useSoftwareRenderer) {
-
-    [NSGraphicsContext saveGraphicsState];
-
-    int width = [ciImage extent].size.width;
-    int rows = [ciImage extent].size.height;
-    int rowBytes = (width * 8);
-
-
-    NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
-                                                                    pixelsWide:width
-                                                                    pixelsHigh:rows
-                                                                 bitsPerSample:16
-                                                               samplesPerPixel:4
-                                                                      hasAlpha:YES
-                                                                      isPlanar:NO
-                                                                colorSpaceName:NSDeviceRGBColorSpace
-                                                                  bitmapFormat:0
-                                                                   bytesPerRow:rowBytes
-                                                                  bitsPerPixel:0];
-
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate([rep bitmapData],
-                                                 width,
-                                                 rows,
-                                                 16,
-                                                 rowBytes,
-                                                 colorSpace,
-                                                 (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
-
-    NSDictionary *contextOptions = @{
-                                     kCIContextWorkingColorSpace: (__bridge id)colorSpace,
-                                     kCIContextOutputColorSpace: (__bridge id)colorSpace,
-                                     kCIContextUseSoftwareRenderer: @(useSoftwareRenderer)
-                                     };
-
-    CIContext* ciContext = [CIContext contextWithCGContext:context options:contextOptions];
-
-
-    CGImageRef cgImage = [ciContext createCGImage:ciImage fromRect:ciImage.extent];
-    NSImage *nsImage = [[NSImage alloc] initWithCGImage:cgImage size:ciImage.extent.size];
-    CGImageRelease(cgImage);
-	CGContextRelease(context);
-	CGColorSpaceRelease(colorSpace);
-
-    [NSGraphicsContext restoreGraphicsState];
-
-	return nsImage;
-}
-
-#endif
-
 
 @implementation LUTHelper
 

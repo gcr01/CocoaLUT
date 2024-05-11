@@ -7,7 +7,7 @@
 //
 
 #import "LUTMetadataFormatter.h"
-#import <M13OrderedDictionary/M13OrderedDictionary.h>
+#import <M13OrderedDictionary.h>
 
 @implementation LUTMetadataFormatter
 

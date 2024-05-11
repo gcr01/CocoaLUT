@@ -8,7 +8,7 @@
 
 #import "LUTFormatterNucodaCMS.h"
 
-#import <RegExCategories/RegExCategories.h>
+#import <RegExCategories.h>
 
 @implementation LUTFormatterNucodaCMS
 

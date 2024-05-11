@@ -6,7 +6,6 @@
 //
 //
 
-#if !TARGET_OS_IPHONE || __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
 #import "LUTPreviewScene.h"
 
 #define LATTICE_MAX_SIZE 18
@@ -34,40 +33,6 @@
     self.position = SCNVector3Make(lerp1d(self.identityColor.red, self.transformedColor.red, self.animationPercentage), lerp1d(self.identityColor.green, self.transformedColor.green, self.animationPercentage), lerp1d(self.identityColor.blue, self.transformedColor.blue, self.animationPercentage));
 }
 @end
-
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#elif TARGET_OS_MAC
-@implementation LUTPreviewSceneViewController
-
-- (void)setSceneWithLUT:(LUT *)lut{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-        LUTPreviewScene *scene;
-        double newAnimationPercentage = self.animationPercentage;
-        if (((SCNView *)self.view).scene) {
-            scene = [(LUTPreviewScene *)((SCNView *)self.view).scene sceneWithUpdatedLUT:lut];
-        }
-        else{
-            scene = [LUTPreviewScene sceneForLUT:lut];
-            newAnimationPercentage = 1.0;
-        }
-
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            ((SCNView *)self.view).scene = scene;
-            self.animationPercentage = newAnimationPercentage;
-        });
-    });
-
-}
-
-- (void)setAnimationPercentage:(double)animationPercentage{
-    _animationPercentage = animationPercentage;
-    [(LUTPreviewScene *)((SCNView *)self.view).scene setAnimationPercentage:animationPercentage];
-}
-
-@end
-#endif
 
 @implementation LUTPreviewScene
 
@@ -201,20 +166,20 @@
     SCNNode *axes = [SCNNode node];
 
     SCNCylinder *redLineGeometry = [SCNCylinder cylinderWithRadius:radius height:length];
-    redLineGeometry.firstMaterial.diffuse.contents = SystemColor.redColor;
+    redLineGeometry.firstMaterial.diffuse.contents = UIColor.redColor;
 
     SCNCylinder *greenLineGeometry = [SCNCylinder cylinderWithRadius:radius height:length];
-    greenLineGeometry.firstMaterial.diffuse.contents = SystemColor.greenColor;
+    greenLineGeometry.firstMaterial.diffuse.contents = UIColor.greenColor;
 
     SCNCylinder *blueLineGeometry = [SCNCylinder cylinderWithRadius:radius height:length];
-    blueLineGeometry.firstMaterial.diffuse.contents = SystemColor.blueColor;
+    blueLineGeometry.firstMaterial.diffuse.contents = UIColor.blueColor;
 
     SCNCone *redAxisPointerGeometry = [SCNCone coneWithTopRadius:radius*4.0 bottomRadius:0 height:radius*4.0];
-    redAxisPointerGeometry.firstMaterial.diffuse.contents = SystemColor.redColor;
+    redAxisPointerGeometry.firstMaterial.diffuse.contents = UIColor.redColor;
     SCNCone *greenAxisPointerGeometry = [SCNCone coneWithTopRadius:radius*4.0 bottomRadius:0 height:radius*4.0];
-    greenAxisPointerGeometry.firstMaterial.diffuse.contents = SystemColor.greenColor;
+    greenAxisPointerGeometry.firstMaterial.diffuse.contents = UIColor.greenColor;
     SCNCone *blueAxisPointerGeometry = [SCNCone coneWithTopRadius:radius*4.0 bottomRadius:0 height:radius*4.0];
-    blueAxisPointerGeometry.firstMaterial.diffuse.contents = SystemColor.blueColor;
+    blueAxisPointerGeometry.firstMaterial.diffuse.contents = UIColor.blueColor;
     double axisPointerOffset = redAxisPointerGeometry.height/2.0;
 
     SCNNode *xAxis = [SCNNode nodeWithGeometry:redLineGeometry];
@@ -265,7 +230,7 @@
 
     double gridLinesLength = inputUpperBound - inputLowerBound;
     SCNCylinder *gridLineGeometry = [SCNCylinder cylinderWithRadius:radius/2.0 height:gridLinesLength];
-    gridLineGeometry.firstMaterial.diffuse.contents = SystemColor.blackColor;
+    gridLineGeometry.firstMaterial.diffuse.contents = UIColor.blackColor;
 
 
     SCNNode *x1 = [SCNNode nodeWithGeometry:gridLineGeometry];
@@ -343,4 +308,3 @@
 }
 
 @end
-#endif
