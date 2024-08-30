@@ -13,19 +13,9 @@ let package = Package(
             name: "CocoaLUT",
             targets: ["CocoaLUT"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/zhanggenning/Objective-C-RegEx-Categories.git", from: "1.0.0"),
-        .package(url: "https://github.com/zhanggenning/M13OrderedDictionary.git", from: "1.1.0"),
-        .package(url: "https://github.com/zhanggenning/XMLDictionary.git", from: "1.4.1")
-    ],
     targets: [
         .target(
             name: "CocoaLUT",
-            dependencies: [
-                .product(name: "RegExCategories", package: "Objective-C-RegEx-Categories"),
-                .product(name: "M13OrderedDictionary", package: "M13OrderedDictionary"),
-                .product(name: "XMLDictionary", package: "XMLDictionary")
-            ],
             path: "Classes",
             publicHeadersPath: "."
         )

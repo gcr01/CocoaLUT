@@ -65,11 +65,17 @@
 }
 
 + (instancetype)LUTFromURL:(NSURL *)url {
-    LUTFormatter *formatter = [LUTFormatter LUTFormatterValidForReadingURL:url];
-    if(formatter == nil){
+    @try {
+        LUTFormatter *formatter = [LUTFormatter LUTFormatterValidForReadingURL:url];
+        if(formatter == nil){
+            NSLog(@"Error: No valid LUT formatter found for URL: %@", url);
+            return nil;
+        }
+        return [[formatter class] LUTFromURL:url];
+    } @catch (NSException *exception) {
+        NSLog(@"Exception occurred while loading LUT from URL: %@, Reason: %@", url, exception.reason);
         return nil;
     }
-    return [[formatter class] LUTFromURL:url];
 }
 
 + (instancetype)LUTFromData:(NSData *)data formatterID:(NSString *)formatterID
